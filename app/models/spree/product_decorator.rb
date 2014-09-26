@@ -18,8 +18,6 @@ Spree::Product.class_eval do
     not_deleted.individual_saled.available(nil, args.first)
   }
 
-  validate :assembly_cannot_be_part, :if => :assembly?
-
   def add_part(variant, count = 1)
     set_part_count(variant, count_of(variant) + count)
   end
@@ -47,10 +45,6 @@ Spree::Product.class_eval do
     ap = assemblies_part(variant)
     # This checks persisted because the default count is 1
     ap.persisted? ? ap.count : 0
-  end
-
-  def assembly_cannot_be_part
-    errors.add(:can_be_part, Spree.t(:assembly_cannot_be_part)) if can_be_part
   end
 
   def update_assembly_inventory!
