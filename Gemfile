@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 gemspec
 
-gem 'spree', github: 'spree/spree', :branch => '2-2-stable'
+gem 'spree' #, github: 'spree/spree', :branch => '2-2-stable'
 
 gem 'pry-rails'
 gem 'pg'
@@ -17,5 +17,6 @@ group :test do
   gem 'poltergeist'
   gem 'pry-rescue'
   gem 'selenium-webdriver', '~> 2.34'
+  gem 'durable_decorator', github: 'jumph4x/durable_decorator'
   gem 'spree_wombat', github: 'spree/spree_wombat', branch: '2-2-stable'
 end

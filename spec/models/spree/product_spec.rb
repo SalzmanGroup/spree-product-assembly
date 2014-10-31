@@ -55,11 +55,10 @@ describe Spree::Product do
     end
 
 
-    it "cannot be part" do
+    it "can be part" do
       @product.should be_assembly
       @product.can_be_part = true
-      @product.valid?
-      @product.errors[:can_be_part].should == ["assembly can't be part"]
+      expect(@product).to be_valid
     end
 
     it 'changing part qty changes count on_hand' do
