@@ -6,7 +6,7 @@ Create a product which is composed of other products.
 
 Add the following line to your Gemfile
 
-    gem "spree_product_assembly", github: "spree/spree-product-assembly"
+    gem "spree_product_assembly", github: "spree/spree-product-assembly", branch: "2-2-stable"
 
 Run bundle install as well as the extension intall command to copy and run migrations and
 append spree_product_assembly to your js manifest file
@@ -36,6 +36,21 @@ Spree will create and track inventory units for its parts rather than for the pr
 That means you essentially have a product composed of other products. From a
 customer perspective it's like they are paying a single amount for a collection
 of products.
+
+
+## Using with spree_wombat
+
+If you use this with spree_wombat make sure that you add this extension after
+spree_wombat in your `Gemfile`
+
+This extension provides a specific serializer for shipments `assembly_shipment_serializer`, to use this in your Spree storefront make sure
+you configure spree_wombat like this:
+
+```ruby
+config.payload_builder = {
+  "Spree::Shipment" => {:serializer => "Spree::Wombat::AssemblyShipmentSerializer", :root => "shipments"}
+}
+
 
 Contributing
 ------------
