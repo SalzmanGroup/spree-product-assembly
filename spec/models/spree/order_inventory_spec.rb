@@ -44,6 +44,7 @@ module Spree
       end
     end
 
+
     context "same variant within bundle and as regular product" do
       let(:contents) { OrderContents.new(order) }
       let(:guitar) { create(:variant) }
@@ -63,7 +64,7 @@ module Spree
 
         it "removes only units associated with provided line item" do
           expect {
-            subject.send(:remove_from_shipment, shipment, guitar_item, 5)
+            subject.send(:remove_from_shipment, shipment, 5)
           }.not_to change { bundle_item.inventory_units.count }
         end
       end

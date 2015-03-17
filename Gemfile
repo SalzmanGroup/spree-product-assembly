@@ -2,6 +2,7 @@ source "https://rubygems.org"
 
 gemspec
 
+
 gem 'spree', github: 'spree/spree', :branch => '2-3-stable'
 
 gem 'pry-rails'
@@ -14,5 +15,6 @@ end
 
 group :test do
   gem 'capybara', '~> 2.1.0'
-  gem 'selenium-webdriver', '~> 2.34'
+  gem 'poltergeist'
+  gem 'pry-rescue'
 end

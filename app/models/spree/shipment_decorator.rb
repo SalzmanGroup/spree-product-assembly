@@ -1,36 +1,5 @@
 module Spree
   Shipment.class_eval do
-    # Overriden from spree core
-    #
-    #   def set_up_inventory(state, variant, order)
-    #     self.inventory_units.create(variant_id: variant.id, state: state, order_id: order.id)
-    #   end
-    #
-    # Also assigns a line item to the inventory unit
-    def set_up_inventory(state, variant, order, line_item)
-      self.inventory_units.create(
-        state: state,
-        variant_id: variant.id,
-        order_id: order.id,
-        line_item_id: line_item.id
-      )
-    end
-
-    # Overriden from spree core
-    #
-    # As line items associated with a product assembly dont have their
-    # inventory units variant id equals to the line item variant id.
-    # That's because we create inventory units for the parts, which are
-    # actually other variants, rather than for the variant directly
-    # associated with the line item (the product assembly)
-    def line_items
-      if order.complete? and Spree::Config[:track_inventory_levels]
-        order.line_items.select { |li| inventory_units.pluck(:line_item_id).include?(li.id) }
-      else
-        order.line_items
-      end
-    end
-
     # Overriden from Spree core as a product bundle part should not be put
     # together with an individual product purchased (even though they're the
     # very same variant) That is so we can tell the store admin which units
@@ -38,6 +7,9 @@ module Spree
     #
     # Account for situations where we can't track the line_item for a variant.
     # This should avoid exceptions when users upgrade from spree 1.3
+    #
+    # TODO Can possibly be removed as well. We already override the manifest
+    # partial so we can get the product there
     def manifest
       items = []
       inventory_units.joins(:variant).includes(:variant, :line_item).group_by(&:variant).each do |variant, units|
