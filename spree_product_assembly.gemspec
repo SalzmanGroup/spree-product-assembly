@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.requirements << 'none'
 
   s.add_dependency('spree', '~> 2.3.0')
-  #s.add_dependency('durable_decorator')
+  s.add_dependency('durable_decorator')
 
   s.add_development_dependency 'rspec-rails', '~> 2.14.0'
   s.add_development_dependency 'sqlite3'
