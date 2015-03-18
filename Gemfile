@@ -5,6 +5,7 @@ gemspec
 
 gem 'spree', github: 'spree/spree', :branch => '2-3-stable'
 
+gem 'durable_decorator'
 gem 'pry-rails'
 gem 'pg'
 
