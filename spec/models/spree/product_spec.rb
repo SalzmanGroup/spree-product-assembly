@@ -103,7 +103,7 @@ describe Spree::Product do
         it_behaves_like 'an assembly'
 
         it 'creates the stock items' do
-          expect{ subject }.to change{cinco_kit.stock_items.size}.by(3)
+          expect{ subject }.to change{cinco_kit.reload.stock_items.size}.by(3)
         end
       end
     end
