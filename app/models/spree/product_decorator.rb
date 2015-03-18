@@ -20,8 +20,6 @@ Spree::Product.class_eval do
     not_deleted.individual_saled.available(nil, args.first)
   }
 
-  validate :assembly_cannot_be_part, :if => :assembly?
-
   def add_part(variant, count = 1)
     set_part_count(variant, count_of(variant) + count)
   end
