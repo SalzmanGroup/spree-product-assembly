@@ -9,7 +9,9 @@ Spree::Product.class_eval do
   scope :individual_saled, -> { where(["spree_products.individual_sale = ?", true]) }
 
   scope :search_can_be_part, ->(query){ not_deleted.available.joins(:master)
-    .where(arel_table["name"].matches("%#{query}%").or(Spree::Variant.arel_table["sku"].matches("%#{query}%")))
+    .where(arel_table["name"]
+            .matches("%#{query}%")
+            .or(Spree::Variant.arel_table["sku"].matches("%#{query}%")))
     .where(can_be_part: true)
     .limit(30)
   }
@@ -17,6 +19,8 @@ Spree::Product.class_eval do
   scope :active, lambda { |*args|
     not_deleted.individual_saled.available(nil, args.first)
   }
+
+  validate :assembly_cannot_be_part, :if => :assembly?
 
   def add_part(variant, count = 1)
     set_part_count(variant, count_of(variant) + count)
@@ -55,6 +59,10 @@ Spree::Product.class_eval do
     end.each_pair do |location, quantity|
       location.stock_item_or_create(self.master).set_count_on_hand quantity
     end
+  end
+
+  def assembly_cannot_be_part
+    errors.add(:can_be_part, Spree.t(:assembly_cannot_be_part)) if can_be_part
   end
 
   private
