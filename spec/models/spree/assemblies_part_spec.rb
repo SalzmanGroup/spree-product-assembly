@@ -40,8 +40,8 @@ module Spree
 
       subject { part.count_by_stock_location }
 
-      it 'is lists how many assemblies can be supplied with this part per stock location' do
-        expect(subject).to eq(location_a => 4)
+      it 'lists how many assemblies can be supplied with this part per stock location' do
+        expect(subject[location_a]).to eq(4)
       end
     end
   end
