@@ -1,18 +1,20 @@
 module Spree
   class AssembliesPart < ActiveRecord::Base
-    belongs_to :assembly, :class_name => "Spree::Product", :foreign_key => "assembly_id"
+    belongs_to :assembly, :class_name => "Spree::Product",
+      :foreign_key => "assembly_id", touch: true
+
     belongs_to :part, :class_name => "Spree::Variant", :foreign_key => "part_id"
 
     def self.get(assembly_id, part_id)
-      find_by(assembly_id: assembly_id, part_id: part_id)
+      find_or_initialize_by(assembly_id: assembly_id, part_id: part_id)
     end
 
-    def save
-      self.class.where(["assembly_id = ? AND part_id = ?", assembly_id, part_id]).update_all count: count
+    def available_count
+      part.total_on_hand / count
     end
 
-    def destroy
-      self.class.delete_all(["assembly_id = ? AND part_id = ?", assembly_id, part_id])
+    def count_by_stock_location
+      Hash[part.stock_items.map { |si| [si.stock_location, (si.count_on_hand / count)] }]
     end
   end
 end

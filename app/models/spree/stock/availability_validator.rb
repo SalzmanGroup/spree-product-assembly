@@ -1,6 +1,6 @@
 module Spree
   module Stock
-    # Overriden from spree core to make it also check for assembly parts stock
+    # Overridden from spree core to make it also check for assembly parts stock
     class AvailabilityValidator < ActiveModel::Validator
       def validate(line_item)
         product = line_item.product
