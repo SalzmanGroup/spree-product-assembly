@@ -1,4 +1,5 @@
 /*
+ *= require_tree .
  *= require spree/backend
  *= require spree_product_assembly
 */
